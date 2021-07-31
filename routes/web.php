@@ -15,4 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Auth::routes();
+Auth::routes();
+
+Route::get('/todo/index', [\App\Http\Controllers\TodoController::class, 'index'])->name('todo.index');
+
+Route::get('/todo/create', [\App\Http\Controllers\TodoController::class, 'create'])->name('todo.create');
+
+Route::post('/todo/store', [\App\Http\Controllers\TodoController::class, 'store'])->name('todo.store');
