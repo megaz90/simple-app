@@ -17,8 +17,13 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('h
 
 Auth::routes();
 
-Route::get('/todo/index', [\App\Http\Controllers\TodoController::class, 'index'])->name('todo.index');
 
-Route::get('/todo/create', [\App\Http\Controllers\TodoController::class, 'create'])->name('todo.create');
 
-Route::post('/todo/store', [\App\Http\Controllers\TodoController::class, 'store'])->name('todo.store');
+Route::group(['prefix' => '/todo', 'as' => 'todo.'], function () {
+    Route::get('/index', [\App\Http\Controllers\TodoController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\TodoController::class, 'create'])->name('create');
+    Route::post('/store', [\App\Http\Controllers\TodoController::class, 'store'])->name('store');
+    Route::get('/edit/{id}', [\App\Http\Controllers\TodoController::class, 'edit'])->name('edit');
+    Route::post('/update/{id}', [\App\Http\Controllers\TodoController::class, 'update'])->name('update');
+    Route::get('/delete/{id}', [\App\Http\Controllers\TodoController::class, 'destroy'])->name('delete');
+});

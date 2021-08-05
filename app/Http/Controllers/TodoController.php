@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TodoRequest;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Session;
@@ -19,16 +20,37 @@ class TodoController extends Controller
         return view('todo.create');
     }
 
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
-        $request->validate(
-            [
-                'todo' => ['required', 'max:250', 'min:10'],
-            ]
-        );
-
         Todo::create(['todo' => $request->todo]);
 
+        session::flash('success', 'Todo Created!');
         return redirect()->route('todo.index');
+    }
+
+    public function edit($id)
+    {
+        $todo = Todo::find($id);
+
+        return view('todo.edit')->with('todo', $todo);
+    }
+
+    public function update(TodoRequest $request, $id)
+    {
+        $todo = Todo::find($id);
+        $todo->todo = $request->todo;
+        $todo->save();
+
+        session::flash('success', 'Todo Updated!');
+        return redirect()->route('todo.index');
+    }
+
+    public function destroy($id)
+    {
+        $todo = Todo::find($id);
+        $todo->delete();
+
+        session::flash('success', 'Todo Deleted!');
+        return redirect()->back();
     }
 }

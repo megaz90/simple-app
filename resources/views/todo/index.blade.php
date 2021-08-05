@@ -12,6 +12,9 @@
         <div class="row">
             <h1 class="text-center mt-5">Todo App</h1>
         </div>
+        @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="row mt-5">
             <div class="col-md-12">
                 <div class="d-flex justify-content-center">
@@ -33,7 +36,10 @@
                   <tr>
                     <th scope="row">{{ $todo->id }}</th>
                     <td>{{ $todo->todo }}</td>
-                    <td><a href="" class="btn btn-success btn-sm">Update</a>&nbsp;<a href="" class="btn btn-warning btn-sm">Delete</a></td>
+                    <td>
+                      <a href="{{ route('todo.edit',$todo->id) }}" class="btn btn-success btn-sm">Edit</a>
+                      &nbsp;
+                      <a href="{{ route('todo.delete', $todo->id) }}" class="btn btn-danger btn-sm">Delete</a></td>
                   </tr>
                   @endforeach
                 </tbody>
